@@ -4,11 +4,11 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <!--http://mybatis.org/generator/configreference/xmlconfig.html-->
 <generatorConfiguration>
-    <classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip" />
+    <!--<classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip" />-->
 
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <!--数据库链接账号密码-->
-        <jdbcConnection driverClass="COM.ibm.db2.jdbc.app.DB2Driver"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://127.0.0.1:3306/My"
                         userId="root"
                         password="0417">
@@ -36,8 +36,14 @@
 
 
         <!--生成对应表及类名-->
-        <table tableName="file" domainObjectName="FileDo"></table>
-        <table tableName="model" domainObjectName="ModelDo"></table>
+        <table tableName="file" domainObjectName="FileDo"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+        <table tableName="model" domainObjectName="ModelDo"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
 
 
 
