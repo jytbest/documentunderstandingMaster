@@ -1,0 +1,12 @@
+java:
+controller
+
+dao
+    FileDoMapper（接口，接口实现在mapping下的xml里面）
+dataobject
+    FileDo（类，定义字段和setget方法，与数据库一一对应）
+service（接口）
+    impl->serviceImpl（实现类）
+    model->fileModel（类，定义字段和setget方法，可以多个表的字段合并）
+
+(Dao是完全做映射，而model层才是真正的M)
