@@ -19,11 +19,11 @@ public interface FileService {
     FileModel saveolddocx(FileModel fileModel) throws BusinessException;
 
     //更新待测文档标签
-    void updatelabel(FileModel fileModel)throws BusinessException;
+    FileModel updatelabel(FileModel fileModel)throws BusinessException;
 
     //更新txt文档标签
-    void updatetxt(FileModel fileModel)throws BusinessException;
+    FileModel updatetxt(FileModel fileModel)throws BusinessException;
 
     //更新newdocx文档
-    void updatenewdocx(FileModel fileModel) throws BusinessException;
+    FileModel updatenewdocx(FileModel fileModel) throws BusinessException;
 }

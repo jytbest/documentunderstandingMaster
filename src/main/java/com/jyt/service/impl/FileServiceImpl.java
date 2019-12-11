@@ -76,7 +76,7 @@ public class FileServiceImpl implements FileService {
     //更新待测文档标签
     @Override
     @Transactional
-    public void updatelabel(FileModel fileModel) throws BusinessException {
+    public FileModel updatelabel(FileModel fileModel) throws BusinessException {
         if(StringUtils.isEmpty(fileModel.getLabel())){
             throw new BusinessException(EmBusinessError.OLDDOCXLABEL_FAIL_SAVE);
         }
@@ -84,13 +84,13 @@ public class FileServiceImpl implements FileService {
         //实现model->转成dataobject方法
         fileDoMapper.updateByPrimaryKeySelective(fileDo);
 
-        return;
+        return this.getFileById(fileModel.getFileid());
 
     }
 
     //更新txt文档标签
     @Override
-    public void updatetxt(FileModel fileModel) throws BusinessException {
+    public FileModel updatetxt(FileModel fileModel) throws BusinessException {
         if(StringUtils.isEmpty(fileModel.getFeaturetxt())){
             throw new BusinessException(EmBusinessError.TXT_FAIL_UPDATE);
         }
@@ -98,13 +98,13 @@ public class FileServiceImpl implements FileService {
         //实现model->转成dataobject方法
         fileDoMapper.updateByPrimaryKeySelective(fileDo);
 
-        return;
+        return this.getFileById(fileModel.getFileid());
     }
 
 
     //更新newdocx文档
     @Override
-    public void updatenewdocx(FileModel fileModel) throws BusinessException {
+    public FileModel updatenewdocx(FileModel fileModel) throws BusinessException {
         if(StringUtils.isEmpty(fileModel.getNewdocx())){
             throw new BusinessException(EmBusinessError.NEWDOCX_FAIL_UPDATE);
         }
@@ -113,7 +113,7 @@ public class FileServiceImpl implements FileService {
         //实现model->转成dataobject方法
         fileDoMapper.updateByPrimaryKeySelective(fileDo);
 
-        return;
+        return this.getFileById(fileModel.getFileid());
     }
 
 
