@@ -37,6 +37,14 @@
     from model
     where modelid = #{modelid,jdbcType=INTEGER}
   </select>
+
+  <select id="findAll" resultMap="BaseResultMap">
+
+    select
+    <include refid="Base_Column_List" />
+    from model ORDER BY modelid
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated

@@ -10,3 +10,22 @@ service（接口）
     model->fileModel（类，定义字段和setget方法，可以多个表的字段合并）
 
 (Dao是完全做映射，而model层才是真正的M)
+
+
+异常处理问题：
+
+response和error
+
+
+领域模型的概念:
+例如User对象就是用户级别的领域模型，其领域模型会有一个完整的生命周期
+注册是生命周期的第一步，用户信息的浏览和登录可能是生命周期的第二步
+模型能力管理：商品模型，下单模型以及秒杀的活动模型
+模型的建设！
+
+crossOrigin解决跨域请求，但是session无法共享
+    需要指定范围（allowCredentials="true" allowedHeaders="*"）
+
+
+
+先设计领域模型！！！级联嵌套，再去设计数据库表
