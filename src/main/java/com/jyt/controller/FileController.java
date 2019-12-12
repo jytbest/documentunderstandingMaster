@@ -16,6 +16,8 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -108,9 +110,9 @@ public class FileController extends BaseController {
         /*
         调用聚类模型，执行cmd命令，最后得到待测文档所在的簇
         */
-
+        String label = execmdcluster();
+        System.out.println(label);
         //测试完成，无bug!!!
-        String label = "3";
         //更新到数据库
         FileModel fileModel = new FileModel();
         fileModel.setLabel(label);
@@ -142,7 +144,7 @@ public class FileController extends BaseController {
         //文件目录
         String path = rootpath+"/"+filename;
         //调簇分类器需要的路径
-        String grupath = root+"/documentunderstanding/gru/"+label+"/input/BZprediction.txt";
+        String grupath = root+"/documentunderstanding/gru/"+label+"/input/prediction.csv";
         FileOutputStream fos = null;
         FileOutputStream pfos = null;
         try{
@@ -181,19 +183,15 @@ public class FileController extends BaseController {
         //调用gru预测模型，最后得到待测文档的result文件
         String root = System.getProperty("user.home")+File.separator+"前端";
         System.out.println(root);
-        //调簇分类器需要的路径
-        String gru= root+"/documentunderstanding/gru/"+label+"/test";
-        //执行模型，得到result.txt结果
-        /*
 
-
-        调模型，得到最终的标注报告！*/
+        execmdBigru(label);
+        String gruoutput= root+"/documentunderstanding/gru/"+label+"/output";
 
         //测试完成！无bug!
         //String path = "/啦啦啦啦啦";
         //后端接收文件，保存到文件夹，并将路径更新到数据库中newdocx
         FileModel fileModel = new FileModel();
-        fileModel.setNewdocx(gru);
+        fileModel.setNewdocx(gruoutput);
         fileModel.setFileid(id);
         FileModel fileModelForReturn = fileService.updatenewdocx(fileModel);
         FileVO fileVO = convertFromModel(fileModelForReturn);
@@ -222,6 +220,53 @@ public class FileController extends BaseController {
         //返回通用对象
         return CommonReturnType.create(fileVO);
     }
+
+
+    private String execmdcluster(){
+        //String cmd1= "cd /Users/jyt/Downloads";
+        String cmd = "python3 run.py";
+        String label = null;
+        try {
+            //Runtime.getRuntime().exec(cmd1);
+            Process process = Runtime.getRuntime().exec(cmd,null,new File("/Users/jyt/前端/documentunderstanding/cluster1/kmeans"));
+            InputStream is = process.getInputStream();
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
+            String[] array= new String[8];
+            String content;
+            int i =0;
+            while ((content=br.readLine())!= null) {
+                array[i]=content;
+                i++;
+            }
+            System.out.println(array[2]);
+            String rgex ="#(.*)";
+            Pattern pattern = Pattern.compile(rgex);
+            Matcher matcher = pattern.matcher(array[2]);
+            while (matcher.find()) {
+                //System.out.println(matcher.group(1));
+                label = matcher.group(1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //System.out.println(label);
+        return label;
+    }
+
+    private void execmdBigru(String label){
+        //String cmd1= "cd /Users/jyt/Downloads";
+        String cmd = "python3 predict.py";
+        try {
+            //Runtime.getRuntime().exec(cmd1);
+            Runtime.getRuntime().exec(cmd,null,new File("/Users/jyt/前端/documentunderstanding/gru/"+label));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
 
     private FileVO convertFromModel(FileModel fileModel){
